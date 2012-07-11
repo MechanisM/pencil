@@ -1,3 +1,9 @@
+/*
+Pencil - simple HTML5 WISIWYG.
+
+Author: Ilya Shalyapin, ishalyapin@gmail.com
+*/
+
 (function($){
 
     $.fn.pencil = function (options) {
@@ -53,15 +59,15 @@
 
 		$('.pencil_toolbar_h1').click(function(){
 			document.execCommand('RemoveFormat', false, true);
-			document.execCommand('Heading', false, 'h1');
+			document.execCommand('FormatBlock', false, 'h1');
 		});
 		$('.pencil_toolbar_h2').click(function(){
 			document.execCommand('RemoveFormat', false, true);
-			document.execCommand('Heading', false, 'h2');
+			document.execCommand('FormatBlock', false, 'h2');
 		});
 		$('.pencil_toolbar_h3').click(function(){
 			document.execCommand('RemoveFormat', false, true);
-			document.execCommand('Heading', false, 'h3');
+			document.execCommand('FormatBlock', false, 'h3');
 		});
 		$('.pencil_toolbar_removeformat').click(function(){
 			document.execCommand('RemoveFormat', false, true);
@@ -81,9 +87,28 @@
 
 		$('.pencil_toolbar_image').click(function(){
 			_this.showModal('image-form');
+
+			$('.pencil_modal_submit').click(function(){
+				var url = $('.pencil_modal [name=url]').val();
+				_this.closeModal();
+				
+				_this.restoreSelection();
+				document.execCommand('InsertHtml', false, '<img src="'+url+'" />');
+
+			});
 		});
 		$('.pencil_toolbar_link').click(function(){
 			_this.showModal('link-form');
+
+			$('.pencil_modal_submit').click(function(){
+				var name = $('.pencil_modal [name=name]').val();
+				var url = $('.pencil_modal [name=url]').val();
+				_this.closeModal();
+				
+				_this.restoreSelection();
+				document.execCommand('InsertHtml', false, '<a href="'+url+'">'+name+'</a>');
+
+			});
 		});
 		$('.pencil_toolbar_video').click(function(){
 			_this.showModal('video-form');
@@ -245,7 +270,7 @@
 						</tr>\
 						<tr>\
 							<td>Ссылка:</td>\
-							<td><input type="text" name="src" size="40" value="" /></td>\
+							<td><input type="text" name="url" size="40" value="" /></td>\
 						</tr>\
 						<tr colspan="2">\
 							<td>\
