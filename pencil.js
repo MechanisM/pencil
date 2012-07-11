@@ -20,32 +20,9 @@
         this.$div.width(this.$textarea.width());
         this.$div.height(this.$textarea.height());
 
-		this.$textarea.before(
-			'<ul class="pencil_toolbar">\
-				<li><a class="pencil_toolbar_bold" href="#"></a></li>\
-				<li><a class="pencil_toolbar_italic" href="#"></a></li>\
-				<li><a class="pencil_toolbar_strike" href="#"></a></li>\
-				<li><a class="pencil_toolbar_underline" href="#"></a></li>\
-				<li><a class="pencil_toolbar_left" href="#"></a></li>\
-				<li><a class="pencil_toolbar_center" href="#"></a></li>\
-				<li><a class="pencil_toolbar_right" href="#"></a></li>\
-				<li><a class="pencil_toolbar_ol" href="#"></a></li>\
-				<li><a class="pencil_toolbar_ul" href="#"></a></li>\
-				<li><a class="pencil_toolbar_h1" href="#"></a></li>\
-				<li><a class="pencil_toolbar_h2" href="#"></a></li>\
-				<li><a class="pencil_toolbar_h3" href="#"></a></li>\
-				<li><a class="pencil_toolbar_image" href="#"></a></li>\
-				<li><a class="pencil_toolbar_link" href="#"></a></li>\
-				<li><a class="pencil_toolbar_video" href="#"></a></li>\
-			</ul>\
-			<div style="clear: left;"></div>'
-		)
-		this.$div.after(
-			'<ul class="pencil_switch">\
-				<li class="pencil_switch_html"><a href="#">Switch to HTMLMode</a></li>\
-				<li class="pencil_switch_visual"><a href="#">Switch to Visual Mode</a></li>\
-			</ul>'
-		)
+		this.$textarea.before(this.getTemplate('toolbar'));
+		this.$div.after(this.getTemplate('switch'));
+
 		$('.pencil_toolbar_bold').click(function(){
 			document.execCommand('Bold', false, true);
 		});
@@ -53,29 +30,51 @@
 			document.execCommand('Italic', false, true);
 		});
 		$('.pencil_toolbar_strike').click(function(){
-			document.execCommand('StrikeThrough', false, true)
+			document.execCommand('StrikeThrough', false, true);
 		});
 		$('.pencil_toolbar_underline').click(function(){
-			document.execCommand('Underline', false, true)
+			document.execCommand('Underline', false, true);
 		});
 		$('.pencil_toolbar_left').click(function(){
-			document.execCommand('JustifyLeft', false, true)
+			document.execCommand('JustifyLeft', false, true);
 		});
 		$('.pencil_toolbar_center').click(function(){
-			document.execCommand('JustifyCenter', false, true)
+			document.execCommand('JustifyCenter', false, true);
 		});
 		$('.pencil_toolbar_right').click(function(){
-			document.execCommand('JustifyRight', false, true)
+			document.execCommand('JustifyRight', false, true);
 		});
 		$('.pencil_toolbar_ol').click(function(){
-			document.execCommand('InsertOrderedList', false, true)
+			document.execCommand('InsertOrderedList', false, true);
 		});
 		$('.pencil_toolbar_ul').click(function(){
-			document.execCommand('InsertUnorderedList', false, true)
+			document.execCommand('InsertUnorderedList', false, true);
 		});
 
-		_this = this;
+		$('.pencil_toolbar_h1').click(function(){
+			document.execCommand('RemoveFormat', false, true);
+			document.execCommand('Heading', false, 'h1');
+		});
+		$('.pencil_toolbar_h2').click(function(){
+			document.execCommand('RemoveFormat', false, true);
+			document.execCommand('Heading', false, 'h2');
+		});
+		$('.pencil_toolbar_h3').click(function(){
+			document.execCommand('RemoveFormat', false, true);
+			document.execCommand('Heading', false, 'h3');
+		});
+		$('.pencil_toolbar_removeformat').click(function(){
+			document.execCommand('RemoveFormat', false, true);
+		});
+		$('.pencil_toolbar_undo').click(function(){
+			document.execCommand('Undo', false, true);
+		});
+		$('.pencil_toolbar_redo').click(function(){
+			document.execCommand('Redo', false, true);
+		});
 
+
+		_this = this;		
 		$('.pencil_toolbar_image').click(function(){
 			_this.showModal('image-form');
 		});
@@ -154,7 +153,78 @@
 			$('.pencil_modal').remove();
 			$('.pencil_modal_background').remove();
 		},
+        getSelected: function(){
+            // http://stackoverflow.com/questions/5669448/get-selected-texts-html-in-div
+            if (typeof window.getSelection != "undefined") {
+                // IE 9 and other non-IE browsers
+                return window.getSelection().toString();
+            } else if (document.selection && document.selection.type != "Control") {
+                // IE 8 and below
+                return document.selection;
+            }
+        },
+        replaceSelected: function(html){
+            // http://www.phpied.com/replace-selected-text-firefox/
+            // http://stackoverflow.com/questions/5393922/javascript-replace-selection-all-browsers
+            var sel, range, node;
+
+            if (typeof window.getSelection != "undefined") {
+                // IE 9 and other non-IE browsers
+                sel = window.getSelection();
+
+                // Test that the Selection object contains at least one Range
+                if (sel.getRangeAt && sel.rangeCount) {
+                    // Get the first Range (only Firefox supports more than one)
+                    range = window.getSelection().getRangeAt(0);
+                    range.deleteContents();
+
+                    // Create a DocumentFragment to insert and populate it with HTML
+                    // Need to test for the existence of range.createContextualFragment
+                    // because it's non-standard and IE 9 does not support it
+                    if (range.createContextualFragment) {
+                        node = range.createContextualFragment(html);
+                    } else {
+                        // In IE 9 we need to use innerHTML of a temporary element
+                        var div = document.createElement("div"), child;
+                        div.innerHTML = html;
+                        node = document.createDocumentFragment();
+                        while ( (child = div.firstChild) ) {
+                            node.appendChild(child);
+                        }
+                    }
+                    range.insertNode(node);
+                }
+            } else if (document.selection && document.selection.type != "Control") {
+                // IE 8 and below
+                range = document.selection.createRange();
+                range.pasteHTML(html);
+            }
+        },
 		templates: {
+			'toolbar': '<ul class="pencil_toolbar">\
+					<li><a class="pencil_toolbar_bold" href="#"></a></li>\
+					<li><a class="pencil_toolbar_italic" href="#"></a></li>\
+					<li><a class="pencil_toolbar_strike" href="#"></a></li>\
+					<li><a class="pencil_toolbar_underline" href="#"></a></li>\
+					<li><a class="pencil_toolbar_left" href="#"></a></li>\
+					<li><a class="pencil_toolbar_center" href="#"></a></li>\
+					<li><a class="pencil_toolbar_right" href="#"></a></li>\
+					<li><a class="pencil_toolbar_ol" href="#"></a></li>\
+					<li><a class="pencil_toolbar_ul" href="#"></a></li>\
+					<li><a class="pencil_toolbar_h1" href="#"></a></li>\
+					<li><a class="pencil_toolbar_h2" href="#"></a></li>\
+					<li><a class="pencil_toolbar_h3" href="#"></a></li>\
+					<li><a class="pencil_toolbar_image" href="#"></a></li>\
+					<li><a class="pencil_toolbar_link" href="#"></a></li>\
+					<li><a class="pencil_toolbar_video" href="#"></a></li>\
+				</ul>\
+				<div style="clear: left;"></div>',
+
+			'switch': '<ul class="pencil_switch">\
+					<li class="pencil_switch_html"><a href="#">Switch to HTMLMode</a></li>\
+					<li class="pencil_switch_visual"><a href="#">Switch to Visual Mode</a></li>\
+				</ul>',
+
 			'modal': '<div class="pencil_modal"><div class="pencil_modal_close"></div></div>',
 
 			'modal-background': '<div class="pencil_modal_background"></div>',
