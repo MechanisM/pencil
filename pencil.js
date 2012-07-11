@@ -47,8 +47,34 @@
 			</ul>'
 		)
 		$('.pencil_toolbar_bold').click(function(){
-			alert('ds');
+			document.execCommand('Bold', false, true);
 		});
+		$('.pencil_toolbar_italic').click(function(){
+			document.execCommand('Italic', false, true);
+		});
+		$('.pencil_toolbar_strike').click(function(){
+			document.execCommand('StrikeThrough', false, true)
+		});
+		$('.pencil_toolbar_underline').click(function(){
+			document.execCommand('Underline', false, true)
+		});
+		$('.pencil_toolbar_left').click(function(){
+			document.execCommand('JustifyLeft', false, true)
+		});
+		$('.pencil_toolbar_center').click(function(){
+			document.execCommand('JustifyCenter', false, true)
+		});
+		$('.pencil_toolbar_right').click(function(){
+			document.execCommand('JustifyRight', false, true)
+		});
+		$('.pencil_toolbar_ol').click(function(){
+			document.execCommand('InsertOrderedList', false, true)
+		});
+		$('.pencil_toolbar_ul').click(function(){
+			document.execCommand('InsertUnorderedList', false, true)
+		});
+
+
 		_this = this;
 		$('.pencil_switch_html a').click(function(){
 			_this.htmlMode();
