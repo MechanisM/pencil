@@ -74,7 +74,11 @@
 		});
 
 
-		_this = this;		
+		var _this = this;
+		this.$div.blur(function(){
+			_this.saveSelection();
+		});
+
 		$('.pencil_toolbar_image').click(function(){
 			_this.showModal('image-form');
 		});
@@ -83,6 +87,15 @@
 		});
 		$('.pencil_toolbar_video').click(function(){
 			_this.showModal('video-form');
+
+			$('.pencil_modal_submit').click(function(){
+				var html = $('.pencil_modal [name=html_code]').val();
+				_this.closeModal();
+				
+				_this.restoreSelection();
+				document.execCommand('InsertHtml', false, html);
+
+			});
 		});
 
 		$('.pencil_switch_html a').click(function(){
@@ -153,51 +166,39 @@
 			$('.pencil_modal').remove();
 			$('.pencil_modal_background').remove();
 		},
-        getSelected: function(){
-            // http://stackoverflow.com/questions/5669448/get-selected-texts-html-in-div
-            if (typeof window.getSelection != "undefined") {
-                // IE 9 and other non-IE browsers
-                return window.getSelection().toString();
-            } else if (document.selection && document.selection.type != "Control") {
-                // IE 8 and below
-                return document.selection;
+        saveSelection: function (){
+            //http://stackoverflow.com/questions/1181700/set-cursor-position-on-contenteditable-div
+            if(window.getSelection)//non IE Browsers
+            {
+                this.savedRange = window.getSelection().getRangeAt(0);
             }
+            else if(document.selection)//IE
+            { 
+                this.savedRange = document.selection.createRange();  
+            } 
         },
-        replaceSelected: function(html){
-            // http://www.phpied.com/replace-selected-text-firefox/
-            // http://stackoverflow.com/questions/5393922/javascript-replace-selection-all-browsers
-            var sel, range, node;
-
-            if (typeof window.getSelection != "undefined") {
-                // IE 9 and other non-IE browsers
-                sel = window.getSelection();
-
-                // Test that the Selection object contains at least one Range
-                if (sel.getRangeAt && sel.rangeCount) {
-                    // Get the first Range (only Firefox supports more than one)
-                    range = window.getSelection().getRangeAt(0);
-                    range.deleteContents();
-
-                    // Create a DocumentFragment to insert and populate it with HTML
-                    // Need to test for the existence of range.createContextualFragment
-                    // because it's non-standard and IE 9 does not support it
-                    if (range.createContextualFragment) {
-                        node = range.createContextualFragment(html);
-                    } else {
-                        // In IE 9 we need to use innerHTML of a temporary element
-                        var div = document.createElement("div"), child;
-                        div.innerHTML = html;
-                        node = document.createDocumentFragment();
-                        while ( (child = div.firstChild) ) {
-                            node.appendChild(child);
-                        }
-                    }
-                    range.insertNode(node);
+        restoreSelection: function (){
+            //http://stackoverflow.com/questions/1181700/set-cursor-position-on-contenteditable-div
+            isInFocus = true;
+            this.$div.focus();
+            if (this.savedRange != null) {
+                if (window.getSelection)//non IE and there is already a selection
+                {
+                    var s = window.getSelection();
+                    if (s.rangeCount > 0) 
+                        s.removeAllRanges();
+                    s.addRange(this.savedRange);
                 }
-            } else if (document.selection && document.selection.type != "Control") {
-                // IE 8 and below
-                range = document.selection.createRange();
-                range.pasteHTML(html);
+                else 
+                    if (document.createRange)//non IE and no selection
+                    {
+                        window.getSelection().addRange(this.savedRange);
+                    }
+                    else 
+                        if (document.selection)//IE
+                        {
+                            this.savedRange.select();
+                        }
             }
         },
 		templates: {
