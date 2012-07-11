@@ -2,6 +2,17 @@
 Pencil - simple HTML5 WISIWYG.
 
 Author: Ilya Shalyapin, ishalyapin@gmail.com
+
+Browser compatibility: Firefox, Opera, Chome.
+
+Requirements:
+	- jQuery (http://jquery.com/)
+	- JQuery Form Plugin (http://malsup.com/jquery/form/)
+
+TODO:
+	- Debug image uploading
+	- Make possible to use 2 or more WYSIWYG in a page
+	- Test in IE
 */
 
 (function($){
@@ -14,6 +25,13 @@ Author: Ilya Shalyapin, ishalyapin@gmail.com
 
     function Pencil(textarea, options){
 		this.$textarea = $(textarea);
+
+		if (options==undefined){
+			this.options = {};
+		}else{
+			this.options = options;
+		}
+		this.options.uploaderUrl = this.options.uploaderUrl || '/upload/';
 
 		this.$textarea.wrap('<div class="pencil_wrapper"></div>')
 		this.$wrapper = $('.pencil_wrapper');
@@ -28,6 +46,8 @@ Author: Ilya Shalyapin, ishalyapin@gmail.com
 
 		this.$textarea.before(this.getTemplate('toolbar'));
 		this.$div.after(this.getTemplate('switch'));
+
+		this.templates['image-form'] = this.templates['image-form'].replace('{{UPLOADER_URL}}', this.options.uploaderUrl)
 
 		$('.pencil_toolbar_bold').click(function(){
 			document.execCommand('Bold', false, true);
@@ -71,6 +91,7 @@ Author: Ilya Shalyapin, ishalyapin@gmail.com
 		});
 		$('.pencil_toolbar_removeformat').click(function(){
 			document.execCommand('RemoveFormat', false, true);
+			document.execCommand('FormatBlock', false, 'p');
 		});
 		$('.pencil_toolbar_undo').click(function(){
 			document.execCommand('Undo', false, true);
@@ -228,21 +249,24 @@ Author: Ilya Shalyapin, ishalyapin@gmail.com
         },
 		templates: {
 			'toolbar': '<ul class="pencil_toolbar">\
-					<li><a class="pencil_toolbar_bold" href="#"></a></li>\
-					<li><a class="pencil_toolbar_italic" href="#"></a></li>\
-					<li><a class="pencil_toolbar_strike" href="#"></a></li>\
-					<li><a class="pencil_toolbar_underline" href="#"></a></li>\
-					<li><a class="pencil_toolbar_left" href="#"></a></li>\
-					<li><a class="pencil_toolbar_center" href="#"></a></li>\
-					<li><a class="pencil_toolbar_right" href="#"></a></li>\
-					<li><a class="pencil_toolbar_ol" href="#"></a></li>\
-					<li><a class="pencil_toolbar_ul" href="#"></a></li>\
-					<li><a class="pencil_toolbar_h1" href="#"></a></li>\
-					<li><a class="pencil_toolbar_h2" href="#"></a></li>\
-					<li><a class="pencil_toolbar_h3" href="#"></a></li>\
-					<li><a class="pencil_toolbar_image" href="#"></a></li>\
-					<li><a class="pencil_toolbar_link" href="#"></a></li>\
-					<li><a class="pencil_toolbar_video" href="#"></a></li>\
+					<li><a class="pencil_toolbar_bold" href="#" title="Bold"></a></li>\
+					<li><a class="pencil_toolbar_italic" href="#" title="Italic"></a></li>\
+					<li><a class="pencil_toolbar_strike" href="#" title="Strike"></a></li>\
+					<li><a class="pencil_toolbar_underline" href="#" title="Underline"></a></li>\
+					<li><a class="pencil_toolbar_left" href="#" title="Align left"></a></li>\
+					<li><a class="pencil_toolbar_center" href="#" title="Align center"></a></li>\
+					<li><a class="pencil_toolbar_right" href="#" title="Align right"></a></li>\
+					<li><a class="pencil_toolbar_ol" href="#" title="Ordered list"></a></li>\
+					<li><a class="pencil_toolbar_ul" href="#" title="Unordered list"></a></li>\
+					<li><a class="pencil_toolbar_h1" href="#" title="Heading 1"></a></li>\
+					<li><a class="pencil_toolbar_h2" href="#" title="Heading 2"></a></li>\
+					<li><a class="pencil_toolbar_h3" href="#" title="Heading 3"></a></li>\
+					<li><a class="pencil_toolbar_image" href="#" title="Image"></a></li>\
+					<li><a class="pencil_toolbar_link" href="#" title="Link"></a></li>\
+					<li><a class="pencil_toolbar_video" href="#" title="Video"></a></li>\
+					<li><a class="pencil_toolbar_undo" href="#" title="Undo"></a></li>\
+					<li><a class="pencil_toolbar_redo" href="#" title="Redo"></a></li>\
+					<li><a class="pencil_toolbar_removeformat" href="#" title="Remove Format"></a></li>\
 				</ul>\
 				<div style="clear: left;"></div>',
 
@@ -256,7 +280,7 @@ Author: Ilya Shalyapin, ishalyapin@gmail.com
 			'modal-background': '<div class="pencil_modal_background"></div>',
 
 			'image-form': '<h1>Вставка изображения</h1>\
-				<form class="pancil_modal_img_form" action="{{SIMPLE_UPLOADER_URL}}" method="POST" enctype="multipart/form-data" >\
+				<form class="pancil_modal_img_form" action="{{UPLOADER_URL}}" method="POST" enctype="multipart/form-data" >\
 					<table>\
 						<tr>\
 							<td>Изображение:</td>\
@@ -317,6 +341,40 @@ Author: Ilya Shalyapin, ishalyapin@gmail.com
 		}
 
 	}
+
+    // AJAX image uploading
+	$(function(){
+	    $('.pencil_modal input[name=file]').live('change', function(){
+	       var $form = $('.pencil_modal form');
+
+	        $('input[name=url]', $form).val('');
+	        $('.pencil_modal_throbber', $form).remove();
+	        $('.pencil_modal_thumb', $form).remove();
+
+	        var throbber = '<div class="pencil_modal_throbber"></div>';
+	        $(throbber).insertAfter($('input[name=file]'), $form);
+
+	        $form.ajaxSubmit(function(data){
+	            //Opera hack
+	            data = data.replace(/^<pre>/, '').replace(/<\/pre>$/, '');
+	            //IE hack
+	            data = data.replace(/^<PRE>/, '').replace(/<\/PRE>$/, '');
+	            try{
+	                data = JSON.parse(data);
+	            }catch(err){
+	                alert('Не удалось обработать ответ от сервера.')
+	            }
+	            if (data.error){
+	                alert(data.error);
+	            }
+	            $('.pencil_modal_throbber', $form).remove();
+	            $('.pencil_modal_thumb', $form).remove();
+	            $('input[name=file]', $form).replaceWith('<input type="file" name="file" />');
+	            $('<img class="pencil_modal_thumb" src="' + data.url + '" />').insertAfter($('input[name=file]'), $form);
+	            $('input[name=src]', $form).val(data.url);
+	        }); 
+	    });
+	});
 
 
 })(jQuery)
