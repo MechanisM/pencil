@@ -1,0 +1,25 @@
+<h1>Вставка изображения</h1>
+<form id="parallel_img_form" action="{{SIMPLE_UPLOADER_URL}}" method="POST" enctype="multipart/form-data" >
+    <table>
+        <tr>
+            <td>Изображение:</td>
+            <td>
+                <input type="file" name="file" /><br />
+            </td>
+        </tr>
+        <tr>
+            <td><small>или</small></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Ссылка:</td>
+            <td><input type="text" name="src" size="40" value="" /></td>
+        </tr>
+        <tr colspan="2">
+            <td>
+                <input type="button" value="Вставить" class="parallel__modalwindow__submit" />
+                <input type="button" value="Отменить" class="parallel__modalwindow__cancel" />
+            </td>
+        </tr>
+    </table>
+</form> 
