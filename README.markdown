@@ -21,7 +21,7 @@ Firefox, Opera, Chome.
  - Make possible to use 2 or more WYSIWYG in a page
  - Test in IE
 
-## Example
+## USAGE
 	<!DOCTYPE HTML>
 	<html>
 		<head>
@@ -31,7 +31,7 @@ Firefox, Opera, Chome.
 			<link rel="stylesheet" type="text/css" href="pencil.css" />
 			<script>
 				$(function(){
-					$('#editor').pencil();
+					$('#editor').pencil({'uploaderUrl':'/my-uploader/'});
 				});
 			</script>
 		</head>
@@ -39,4 +39,11 @@ Firefox, Opera, Chome.
 			<textarea id="editor">
 		</body>
 	</html>
+	
+### AJAX image uploader
+	Uploader should return JSON (content_type='application/json; charset=utf-8'):
+	{'url': '/media/123.jpg'}
+	
+	In case of error:
+	{'error':'some error message'}
 
