@@ -42,8 +42,10 @@ Firefox, Opera, Chome.
 	
 ### AJAX image uploader
 Uploader should return JSON (content_type='application/json; charset=utf-8'):
+
 	{'url': '/media/123.jpg'}
 	
 In case of error:
+
 	{'error':'some error message'}
 
