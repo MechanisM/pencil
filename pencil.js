@@ -79,6 +79,12 @@
 		$('.pencil_toolbar_image').click(function(){
 			_this.showModal('image-form');
 		});
+		$('.pencil_toolbar_link').click(function(){
+			_this.showModal('link-form');
+		});
+		$('.pencil_toolbar_video').click(function(){
+			_this.showModal('video-form');
+		});
 
 		$('.pencil_switch_html a').click(function(){
 			_this.htmlMode();
@@ -126,7 +132,7 @@
 
 			$('body').append(bg);
 			$('body').append(modal);
-			var content = this.getTemplate('image-form');
+			var content = this.getTemplate(templateName);
 			modal.append(content);
 
             var left = $(window).width()/2 - modal.width()/2;
@@ -148,17 +154,8 @@
 			$('.pencil_modal').remove();
 			$('.pencil_modal_background').remove();
 		},
-		insertImage: function(){
-
-		},
-		insertLink: function(){
-
-		},
-		insertVideo: function(){
-
-		},
 		templates: {
-			'modal': '<div class="pencil_modal"></div>',
+			'modal': '<div class="pencil_modal"><div class="pencil_modal_close"></div></div>',
 
 			'modal-background': '<div class="pencil_modal_background"></div>',
 
@@ -186,8 +183,43 @@
 							</td>\
 						</tr>\
 					</table>\
-				</form> '
+				</form> ',
+
+			'link-form': '<h1>Вставка ссылки</h1>\
+				<table>\
+					<tr>\
+						<td>Название:</td>\
+						<td><input type="text" name="name" size="40" /></td>\
+					</tr>\
+					<tr>\
+						<td>Ссылка:</td>\
+						<td><input type="text" name="url" size="40" value="http://" /></td>\
+					</tr>\
+					<tr colspan="2">\
+						<td>\
+							<input type="button" value="Вставить" class="pencil_modal_submit" />\
+							<input type="button" value="Отменить" class="pencil_modal_cancel" />\
+						</td>\
+					</tr>\
+				</table>',
+
+			'video-form': '<h1>Вставка видео</h1>\
+				<table>\
+					<tr>\
+						<td colspan="2">\
+							HTML код:<br>\
+							<textarea name="html_code" cols="70" rows="7" />\
+						</td>\
+					</tr>\
+					<tr colspan="2">\
+						<td>\
+							<input type="button" value="Вставить" class="pencil_modal_submit" />\
+							<input type="button" value="Отменить" class="pencil_modal_cancel" />\
+						</td>\
+					</tr>\
+				</table>'
 		}
+
 	}
 
 
