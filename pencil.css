@@ -1,4 +1,4 @@
-.pencil_div{font-size: 14px; font-family: tahoma; border: solid 1px #ccc;}
+.pencil_div{font-size: 14px; font-family: tahoma; border: solid 1px #ccc; border-radius: 5px;}
 
 .pencil_toolbar{float: left; margin: 0; padding: 0;}
 .pencil_toolbar li{float: left; list-style-type: none;}
@@ -50,6 +50,7 @@
 	font-size: 14px;
     color: #000;
     padding: 15px;
+	border-radius: 7px;
 }
 .pencil_modal_close{
     position: absolute;

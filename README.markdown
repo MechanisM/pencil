@@ -22,7 +22,7 @@ Firefox, Opera, Chome.
  - Make possible to use 2 or more WYSIWYG in a page
  - Test in IE
 
-# Example
+## Example
 	<!DOCTYPE HTML>
 	<html>
 		<head>
