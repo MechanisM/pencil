@@ -24,6 +24,7 @@ TODO:
     };
 
     function Pencil(textarea, options){
+        var _this = this;
 		this.$textarea = $(textarea);
 
 		if (options==undefined){
@@ -43,6 +44,11 @@ TODO:
 		this.$div.html(this.$textarea.html());
         this.$div.width(this.$textarea.width());
         this.$div.height(this.$textarea.height());
+        this.$div.blur(function(){
+            if (_this.mode == 'visual'){
+                _this.$textarea.val(_this.$div.html());
+            }
+        });
 
 		this.$textarea.before(this.getTemplate('toolbar'));
 		this.$div.after(this.getTemplate('switch'));
@@ -100,8 +106,6 @@ TODO:
 			document.execCommand('Redo', false, true);
 		});
 
-
-		var _this = this;
 		this.$div.blur(function(){
 			_this.saveSelection();
 		});
@@ -355,15 +359,6 @@ TODO:
 	        $(throbber).insertAfter($('input[name=file]'), $form);
 
 	        $form.ajaxSubmit(function(data){
-	            //Opera hack
-	            data = data.replace(/^<pre>/, '').replace(/<\/pre>$/, '');
-	            //IE hack
-	            data = data.replace(/^<PRE>/, '').replace(/<\/PRE>$/, '');
-	            try{
-	                data = JSON.parse(data);
-	            }catch(err){
-	                alert('Не удалось обработать ответ от сервера.')
-	            }
 	            if (data.error){
 	                alert(data.error);
 	            }
@@ -371,7 +366,7 @@ TODO:
 	            $('.pencil_modal_thumb', $form).remove();
 	            $('input[name=file]', $form).replaceWith('<input type="file" name="file" />');
 	            $('<img class="pencil_modal_thumb" src="' + data.url + '" />').insertAfter($('input[name=file]'), $form);
-	            $('input[name=src]', $form).val(data.url);
+	            $('input[name=url]', $form).val(data.url);
 	        }); 
 	    });
 	});
