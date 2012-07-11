@@ -74,8 +74,12 @@
 			document.execCommand('InsertUnorderedList', false, true)
 		});
 
-
 		_this = this;
+
+		$('.pencil_toolbar_image').click(function(){
+			_this.showModal('image-form');
+		});
+
 		$('.pencil_switch_html a').click(function(){
 			_this.htmlMode();
 			return false;
@@ -87,8 +91,8 @@
 
 	}
 	Pencil.prototype = {
-		loadTemplate: function(){
-
+		getTemplate: function(name){
+			return this.templates[name]
 		},
 		visualMode: function(){
             if (this.mode == 'visual'){
@@ -116,11 +120,33 @@
 
             this.mode = 'html';
 		},
-		showModal: function(){
+		showModal: function(templateName){
+			var bg = $(this.getTemplate('modal-background'));
+            var modal = $(this.getTemplate('modal'));
 
+			$('body').append(bg);
+			$('body').append(modal);
+			var content = this.getTemplate('image-form');
+			modal.append(content);
+
+            var left = $(window).width()/2 - modal.width()/2;
+            var top = $(window).height()/2 - modal.height()/2;
+            modal.css('left', left);
+            modal.css('top', top);
+
+			var _this = this;
+            $('.pencil_modal_close,.pencil_modal_cancel').click(function(){
+                _this.closeModal();
+            });
+            $(document).keyup(function(e) { 
+                if (e.keyCode == 27){
+                     _this.closeModal();
+                } 
+            });
 		},
 		closeModal: function(){
-
+			$('.pencil_modal').remove();
+			$('.pencil_modal_background').remove();
 		},
 		insertImage: function(){
 
@@ -130,6 +156,37 @@
 		},
 		insertVideo: function(){
 
+		},
+		templates: {
+			'modal': '<div class="pencil_modal"></div>',
+
+			'modal-background': '<div class="pencil_modal_background"></div>',
+
+			'image-form': '<h1>Вставка изображения</h1>\
+				<form class="pancil_modal_img_form" action="{{SIMPLE_UPLOADER_URL}}" method="POST" enctype="multipart/form-data" >\
+					<table>\
+						<tr>\
+							<td>Изображение:</td>\
+							<td>\
+								<input type="file" name="file" /><br />\
+							</td>\
+						</tr>\
+						<tr>\
+							<td><small>или</small></td>\
+							<td></td>\
+						</tr>\
+						<tr>\
+							<td>Ссылка:</td>\
+							<td><input type="text" name="src" size="40" value="" /></td>\
+						</tr>\
+						<tr colspan="2">\
+							<td>\
+								<input type="button" value="Вставить" class="pencil_modal_submit" />\
+								<input type="button" value="Отменить" class="pencil_modal_cancel" />\
+							</td>\
+						</tr>\
+					</table>\
+				</form> '
 		}
 	}
 
