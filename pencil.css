@@ -1,0 +1,23 @@
+.pencil_div{font-size: 14px; font-family: tahoma; border: solid 1px #ccc;}
+
+.pencil_toolbar{float: left; margin: 0; padding: 0;}
+.pencil_toolbar li{float: left; list-style-type: none;}
+.pencil_toolbar li a{display: block; width: 29px; height: 26px;}
+.pencil_toolbar_bold{background-image: url(img/toolbar/b.png) }
+.pencil_toolbar_italic{background-image: url(img/toolbar/i.png) }
+.pencil_toolbar_strike{background-image: url(img/toolbar/strike.png) }
+.pencil_toolbar_underline{background-image: url(img/toolbar/underline.png) }
+.pencil_toolbar_left{background-image: url(img/toolbar/left.png) }
+.pencil_toolbar_center{background-image: url(img/toolbar/center.png) }
+.pencil_toolbar_right{background-image: url(img/toolbar/right.png) }
+.pencil_toolbar_ol{background-image: url(img/toolbar/ol.png) }
+.pencil_toolbar_ul{background-image: url(img/toolbar/ul.png) }
+.pencil_toolbar_h1{background-image: url(img/toolbar/h1.png) }
+.pencil_toolbar_h2{background-image: url(img/toolbar/h2.png) }
+.pencil_toolbar_h3{background-image: url(img/toolbar/h3.png) }
+.pencil_toolbar_image{background-image: url(img/toolbar/img.png) }
+.pencil_toolbar_link{background-image: url(img/toolbar/link.png) }
+.pencil_toolbar_video{background-image: url(img/toolbar/video.png) }
+
+.pencil_switch{font-size: 14px; margin: 0; padding: 0; list-style-type: none; float: right;}
+
