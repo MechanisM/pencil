@@ -49,7 +49,6 @@ Requirements:
 		this.$div.bind('keyup click', function(e) {
 		    var $node = $(_this.getSelectionStartNode());
 		    if ($node.is('a')) {
-				node = $node;
 
 				_this.showModal('link-form');
 				$('.pencil_modal [name=name]').val($node.text());
@@ -61,8 +60,8 @@ Requirements:
 					$node.text(name);
 					$node.attr('href', url);
 					_this.closeModal();	
-				});
-		    }
+				});			
+			}
 		});
 
 		this.$textarea.before(this.getTemplate('toolbar'));
