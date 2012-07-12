@@ -10,6 +10,7 @@ Requirements:
 	- JQuery Form Plugin (http://malsup.com/jquery/form/)
 */
 
+
 (function($){
 
     $.fn.pencil = function (options) {
@@ -44,6 +45,25 @@ Requirements:
                 _this.$textarea.val(_this.$div.html());
             }
         });
+
+		this.$div.bind('keyup click', function(e) {
+		    var $node = $(_this.getSelectionStartNode());
+		    if ($node.is('a')) {
+				node = $node;
+
+				_this.showModal('link-form');
+				$('.pencil_modal [name=name]').val($node.text());
+				$('.pencil_modal [name=url]').val($node.attr('href'));
+
+				$('.pencil_modal_submit').click(function(){
+					var name = $('.pencil_modal [name=name]').val();
+					var url = $('.pencil_modal [name=url]').val();
+					$node.text(name);
+					$node.attr('href', url);
+					_this.closeModal();	
+				});
+		    }
+		});
 
 		this.$textarea.before(this.getTemplate('toolbar'));
 		this.$div.after(this.getTemplate('switch'));
@@ -119,6 +139,10 @@ Requirements:
 		});
 		$('.pencil_toolbar_link').click(function(){
 			_this.showModal('link-form');
+			var text = _this.getSelectedText();
+			if (text){
+				$('.pencil_modal [name=name]').val(text);
+			}
 
 			$('.pencil_modal_submit').click(function(){
 				var name = $('.pencil_modal [name=name]').val();
@@ -127,7 +151,6 @@ Requirements:
 				
 				_this.restoreSelection();
 				document.execCommand('InsertHtml', false, '<a href="'+url+'">'+name+'</a>');
-
 			});
 		});
 		$('.pencil_toolbar_video').click(function(){
@@ -211,6 +234,33 @@ Requirements:
 			$('.pencil_modal').remove();
 			$('.pencil_modal_background').remove();
 		},
+		getSelectionStartNode: function(){
+			//http://stackoverflow.com/questions/2459180/how-to-edit-a-link-within-a-contenteditable-div
+			var node,selection;
+			if (window.getSelection) { // FF3.6, Safari4, Chrome5 (DOM Standards)
+				selection = getSelection();
+				node = selection.anchorNode;
+			}
+			if (!node && document.selection) { // IE
+				selection = document.selection
+				var range = selection.getRangeAt ? selection.getRangeAt(0) : selection.createRange();
+				node = range.commonAncestorContainer ? range.commonAncestorContainer :
+				range.parentElement ? range.parentElement() : range.item(0);
+			}
+			if (node) {
+				return (node.nodeName == "#text" ? node.parentNode : node);
+			}
+		},
+        getSelectedText: function(){
+            // http://stackoverflow.com/questions/5669448/get-selected-texts-html-in-div
+            if (typeof window.getSelection != "undefined") {
+                // IE 9 and other non-IE browsers
+                return window.getSelection().toString();
+            } else if (document.selection && document.selection.type != "Control") {
+                // IE 8 and below
+                return document.selection;
+            }
+        },
         saveSelection: function (){
             //http://stackoverflow.com/questions/1181700/set-cursor-position-on-contenteditable-div
             if(window.getSelection)//non IE Browsers
