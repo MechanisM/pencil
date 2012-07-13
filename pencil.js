@@ -69,6 +69,30 @@ Requirements:
 
 		this.templates['image-form'] = this.templates['image-form'].replace('{{UPLOADER_URL}}', this.options.uploaderUrl)
 
+		// AJAX image uploading
+		$('.pencil_modal input[name=file]').live('change', function(){
+		   var $form = $('.pencil_modal form');
+
+		    $('input[name=url]', $form).val('');
+		    $('.pencil_modal_throbber', $form).remove();
+		    $('.pencil_modal_thumb', $form).remove();
+
+		    var throbber = '<div class="pencil_modal_throbber"></div>';
+		    $(throbber).insertAfter($('input[name=file]'), $form);
+
+		    $form.ajaxSubmit(function(data){
+		        if (data.error){
+		            alert(data.error);
+					return;
+		        }
+
+				var url = $('.pencil_modal [name=url]').val();
+				_this.closeModal();			
+				_this.restoreSelection();
+				document.execCommand('InsertHtml', false, '<img src="'+data.url+'" />');
+		    }); 
+		});
+
 		$('.pencil_toolbar_bold').click(function(){
 			document.execCommand('Bold', false, true);
 		});
@@ -389,31 +413,5 @@ Requirements:
 		}
 
 	}
-
-    // AJAX image uploading
-	$(function(){
-	    $('.pencil_modal input[name=file]').live('change', function(){
-	       var $form = $('.pencil_modal form');
-
-	        $('input[name=url]', $form).val('');
-	        $('.pencil_modal_throbber', $form).remove();
-	        $('.pencil_modal_thumb', $form).remove();
-
-	        var throbber = '<div class="pencil_modal_throbber"></div>';
-	        $(throbber).insertAfter($('input[name=file]'), $form);
-
-	        $form.ajaxSubmit(function(data){
-	            if (data.error){
-	                alert(data.error);
-	            }
-	            $('.pencil_modal_throbber', $form).remove();
-	            $('.pencil_modal_thumb', $form).remove();
-	            $('input[name=file]', $form).replaceWith('<input type="file" name="file" />');
-	            $('<img class="pencil_modal_thumb" src="' + data.url + '" />').insertAfter($('input[name=file]'), $form);
-	            $('input[name=url]', $form).val(data.url);
-	        }); 
-	    });
-	});
-
 
 })(jQuery)
