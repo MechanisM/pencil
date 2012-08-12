@@ -81,6 +81,16 @@ Requirements:
             $(throbber).insertAfter($('input[name=file]'), $form);
 
             $form.ajaxSubmit(function(data){
+                //Opera hack
+                data = data.replace(/^<pre>/, '').replace(/<\/pre>$/, '');
+                //IE hack
+                data = data.replace(/^<PRE>/, '').replace(/<\/PRE>$/, '');
+                try{
+                    data = JSON.parse(data);
+                }catch(err){
+                    alert('Не удалось обработать ответ от сервера.')
+                }
+
                 if (data.error){
                     alert(data.error);
                     return;
@@ -95,53 +105,68 @@ Requirements:
 
         $('.pencil_toolbar_bold').click(function(){
             document.execCommand('Bold', false, true);
+            _this.$div.focus();
         });
         $('.pencil_toolbar_italic').click(function(){
             document.execCommand('Italic', false, true);
+            _this.$div.focus();
         });
         $('.pencil_toolbar_strike').click(function(){
             document.execCommand('StrikeThrough', false, true);
+            _this.$div.focus();
         });
         $('.pencil_toolbar_underline').click(function(){
             document.execCommand('Underline', false, true);
+            _this.$div.focus();
         });
         $('.pencil_toolbar_left').click(function(){
             document.execCommand('JustifyLeft', false, true);
+            _this.$div.focus();
         });
         $('.pencil_toolbar_center').click(function(){
             document.execCommand('JustifyCenter', false, true);
+            _this.$div.focus();
         });
         $('.pencil_toolbar_right').click(function(){
             document.execCommand('JustifyRight', false, true);
+            _this.$div.focus();
         });
         $('.pencil_toolbar_ol').click(function(){
             document.execCommand('InsertOrderedList', false, true);
+            _this.$div.focus();
         });
         $('.pencil_toolbar_ul').click(function(){
             document.execCommand('InsertUnorderedList', false, true);
+            _this.$div.focus();
         });
 
         $('.pencil_toolbar_h1').click(function(){
             document.execCommand('RemoveFormat', false, true);
             document.execCommand('FormatBlock', false, 'h1');
+            _this.$div.focus();
         });
         $('.pencil_toolbar_h2').click(function(){
             document.execCommand('RemoveFormat', false, true);
             document.execCommand('FormatBlock', false, 'h2');
+            _this.$div.focus();
         });
         $('.pencil_toolbar_h3').click(function(){
             document.execCommand('RemoveFormat', false, true);
             document.execCommand('FormatBlock', false, 'h3');
+            _this.$div.focus();
         });
         $('.pencil_toolbar_removeformat').click(function(){
             document.execCommand('RemoveFormat', false, true);
             document.execCommand('FormatBlock', false, 'p');
+            _this.$div.focus();
         });
         $('.pencil_toolbar_undo').click(function(){
             document.execCommand('Undo', false, true);
+            _this.$div.focus();
         });
         $('.pencil_toolbar_redo').click(function(){
             document.execCommand('Redo', false, true);
+            _this.$div.focus();
         });
 
         this.$div.blur(function(){
