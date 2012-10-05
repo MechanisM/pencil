@@ -19,6 +19,8 @@ Firefox, Opera, Chome.
 
 ##TODO
  - Test in IE
+ - Configure buttons
+ - AJAX upload with thumbnails
 
 ## USAGE
 	<!DOCTYPE HTML>
