@@ -31,11 +31,11 @@ Requirements:
         this.options.uploaderUrl = this.options.uploaderUrl || '/upload/';
 
         this.$textarea.wrap('<div class="pencil_wrapper"></div>')
-        this.$wrapper = $('.pencil_wrapper');
+        this.$wrapper = this.$textarea.parent('.pencil_wrapper');
         this.$wrapper.width(this.$textarea.width());
 
         $(textarea).after('<div class="pencil_div" style="overflow-y: scroll;"></div>');
-        this.$div = $('.pencil_div');
+        this.$div = this.$textarea.siblings('.pencil_div');
         this.$div.attr('contenteditable','true');
         this.$div.html(this.$textarea.html());
         this.$div.width(this.$textarea.width());
