@@ -18,7 +18,6 @@ Firefox, Opera, Chome.
  - JQuery Form Plugin (http://malsup.com/jquery/form/)
 
 ##TODO
- - Make possible to use 2 or more WYSIWYG in a page
  - Test in IE
 
 ## USAGE
