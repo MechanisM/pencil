@@ -103,68 +103,68 @@ Requirements:
             }); 
         });
 
-        $('.pencil_toolbar_bold', this.$wrapper).click(function(){
+        this.button('bold').click(function(){
             document.execCommand('Bold', false, true);
             _this.$div.focus();
         });
-        $('.pencil_toolbar_italic', this.$wrapper).click(function(){
+        this.button('italic').click(function(){
             document.execCommand('Italic', false, true);
             _this.$div.focus();
         });
-        $('.pencil_toolbar_strike', this.$wrapper).click(function(){
+        this.button('strike').click(function(){
             document.execCommand('StrikeThrough', false, true);
             _this.$div.focus();
         });
-        $('.pencil_toolbar_underline', this.$wrapper).click(function(){
+        this.button('underline').click(function(){
             document.execCommand('Underline', false, true);
             _this.$div.focus();
         });
-        $('.pencil_toolbar_left', this.$wrapper).click(function(){
+        this.button('left').click(function(){
             document.execCommand('JustifyLeft', false, true);
             _this.$div.focus();
         });
-        $('.pencil_toolbar_center', this.$wrapper).click(function(){
+        this.button('center').click(function(){
             document.execCommand('JustifyCenter', false, true);
             _this.$div.focus();
         });
-        $('.pencil_toolbar_right', this.$wrapper).click(function(){
+        this.button('right').click(function(){
             document.execCommand('JustifyRight', false, true);
             _this.$div.focus();
         });
-        $('.pencil_toolbar_ol', this.$wrapper).click(function(){
+        this.button('ol').click(function(){
             document.execCommand('InsertOrderedList', false, true);
             _this.$div.focus();
         });
-        $('.pencil_toolbar_ul', this.$wrapper).click(function(){
+        this.button('ul').click(function(){
             document.execCommand('InsertUnorderedList', false, true);
             _this.$div.focus();
         });
 
-        $('.pencil_toolbar_h1', this.$wrapper).click(function(){
+        this.button('h1').click(function(){
             document.execCommand('RemoveFormat', false, true);
             document.execCommand('FormatBlock', false, 'h1');
             _this.$div.focus();
         });
-        $('.pencil_toolbar_h2', this.$wrapper).click(function(){
+        this.button('h2').click(function(){
             document.execCommand('RemoveFormat', false, true);
             document.execCommand('FormatBlock', false, 'h2');
             _this.$div.focus();
         });
-        $('.pencil_toolbar_h3', this.$wrapper).click(function(){
+        this.button('h3').click(function(){
             document.execCommand('RemoveFormat', false, true);
             document.execCommand('FormatBlock', false, 'h3');
             _this.$div.focus();
         });
-        $('.pencil_toolbar_removeformat', this.$wrapper).click(function(){
+        this.button('removeformat').click(function(){
             document.execCommand('RemoveFormat', false, true);
             document.execCommand('FormatBlock', false, 'p');
             _this.$div.focus();
         });
-        $('.pencil_toolbar_undo', this.$wrapper).click(function(){
+        this.button('undo').click(function(){
             document.execCommand('Undo', false, true);
             _this.$div.focus();
         });
-        $('.pencil_toolbar_redo', this.$wrapper).click(function(){
+        this.button('redo').click(function(){
             document.execCommand('Redo', false, true);
             _this.$div.focus();
         });
@@ -173,7 +173,7 @@ Requirements:
             _this.saveSelection();
         });
 
-        $('.pencil_toolbar_image', this.$wrapper).click(function(){
+        this.button('image').click(function(){
             _this.showModal('image-form');
 
             $('.pencil_modal_submit').click(function(){
@@ -185,7 +185,7 @@ Requirements:
 
             });
         });
-        $('.pencil_toolbar_link', this.$wrapper).click(function(){
+        this.button('link').click(function(){
             _this.showModal('link-form');
             var text = _this.getSelectedText();
             if (text){
@@ -201,7 +201,7 @@ Requirements:
                 document.execCommand('InsertHtml', false, '<a href="'+url+'">'+name+'</a>');
             });
         });
-        $('.pencil_toolbar_video', this.$wrapper).click(function(){
+        this.button('video').click(function(){
             _this.showModal('video-form');
 
             $('.pencil_modal_submit').click(function(){
@@ -214,17 +214,20 @@ Requirements:
             });
         });
 
-        $('.pencil_switch_html a', this.$wrapper).click(function(){
+        $('.pencil_switch_html a').click(function(){
             _this.htmlMode();
             return false;
         });
-        $('.pencil_switch_visual a', this.$wrapper).click(function(){
+        $('.pencil_switch_visual a').click(function(){
             _this.visualMode();
             return false;
         });
 
     }
     Pencil.prototype = {
+        button: function(name){
+            return $('.pencil_toolbar_' + name, this.$wrapper);
+        },
         getTemplate: function(name){
             return this.templates[name]
         },
