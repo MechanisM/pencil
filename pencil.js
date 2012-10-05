@@ -214,11 +214,11 @@ Requirements:
             });
         });
 
-        $('.pencil_switch_html a').click(function(){
+        $('.pencil_switch_html', this.$wrapper).click(function(){
             _this.htmlMode();
             return false;
         });
-        $('.pencil_switch_visual a').click(function(){
+        $('.pencil_switch_visual', this.$wrapper).click(function(){
             _this.visualMode();
             return false;
         });
@@ -238,9 +238,9 @@ Requirements:
             this.$div.html(this.$textarea.val());
             this.$textarea.hide();
             this.$div.show();
-            $('.pencil_switch_visual').hide();
-            $('.pencil_switch_html').show();
-            $('.pencil_toolbar').show();
+            $('.pencil_switch_visual', this.$wrapper).hide();
+            $('.pencil_switch_html', this.$wrapper).show();
+            $('.pencil_toolbar', this.$wrapper).show();
 
             this.mode = 'visual';
         },
@@ -251,9 +251,9 @@ Requirements:
             this.$textarea.val(this.$div.html());
             this.$textarea.show();
             this.$div.hide();
-            $('.pencil_switch_html').hide();
-            $('.pencil_switch_visual').show();
-            $('.pencil_toolbar').hide();
+            $('.pencil_switch_html', this.$wrapper).hide();
+            $('.pencil_switch_visual', this.$wrapper).show();
+            $('.pencil_toolbar', this.$wrapper).hide();
 
             this.mode = 'html';
         },
@@ -370,10 +370,10 @@ Requirements:
                 </ul>\
                 <div style="clear: left;"></div>',
 
-            'switch': '<ul class="pencil_switch">\
-                    <li class="pencil_switch_html"><a href="#">Switch to HTMLMode</a></li>\
-                    <li class="pencil_switch_visual"><a href="#">Switch to Visual Mode</a></li>\
-                </ul>',
+            'switch': '<div class="pencil_switch">\
+                    <a class="pencil_switch_html" href="#">Switch to HTMLMode</a>\
+                    <a class="pencil_switch_visual" href="#">Switch to Visual Mode</a>\
+                </div>',
 
             'modal': '<div class="pencil_modal"><div class="pencil_modal_close"></div></div>',
 
