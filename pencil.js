@@ -349,30 +349,30 @@ Requirements:
         },
         templates: {
             'toolbar': '<ul class="pencil_toolbar">\
-                    <li><a class="pencil_toolbar_bold" href="#" title="Bold"></a></li>\
-                    <li><a class="pencil_toolbar_italic" href="#" title="Italic"></a></li>\
-                    <li><a class="pencil_toolbar_strike" href="#" title="Strike"></a></li>\
-                    <li><a class="pencil_toolbar_underline" href="#" title="Underline"></a></li>\
-                    <li><a class="pencil_toolbar_left" href="#" title="Align left"></a></li>\
-                    <li><a class="pencil_toolbar_center" href="#" title="Align center"></a></li>\
-                    <li><a class="pencil_toolbar_right" href="#" title="Align right"></a></li>\
-                    <li><a class="pencil_toolbar_ol" href="#" title="Ordered list"></a></li>\
-                    <li><a class="pencil_toolbar_ul" href="#" title="Unordered list"></a></li>\
-                    <li><a class="pencil_toolbar_h1" href="#" title="Heading 1"></a></li>\
-                    <li><a class="pencil_toolbar_h2" href="#" title="Heading 2"></a></li>\
-                    <li><a class="pencil_toolbar_h3" href="#" title="Heading 3"></a></li>\
-                    <li><a class="pencil_toolbar_image" href="#" title="Image"></a></li>\
-                    <li><a class="pencil_toolbar_link" href="#" title="Link"></a></li>\
-                    <li><a class="pencil_toolbar_video" href="#" title="Video"></a></li>\
-                    <li><a class="pencil_toolbar_undo" href="#" title="Undo"></a></li>\
-                    <li><a class="pencil_toolbar_redo" href="#" title="Redo"></a></li>\
-                    <li><a class="pencil_toolbar_removeformat" href="#" title="Remove Format"></a></li>\
+                    <li><a class="pencil_toolbar_bold" href="#" title="Жирный"></a></li>\
+                    <li><a class="pencil_toolbar_italic" href="#" title="Курсив"></a></li>\
+                    <li><a class="pencil_toolbar_strike" href="#" title="Зачеркнутый"></a></li>\
+                    <li><a class="pencil_toolbar_underline" href="#" title="Подчеркивание"></a></li>\
+                    <li><a class="pencil_toolbar_left" href="#" title="Лево"></a></li>\
+                    <li><a class="pencil_toolbar_center" href="#" title="Центр"></a></li>\
+                    <li><a class="pencil_toolbar_right" href="#" title="Право"></a></li>\
+                    <li><a class="pencil_toolbar_ol" href="#" title="Нумерованый список"></a></li>\
+                    <li><a class="pencil_toolbar_ul" href="#" title="Ненумерованный список"></a></li>\
+                    <li><a class="pencil_toolbar_h1" href="#" title="Заголовок 1"></a></li>\
+                    <li><a class="pencil_toolbar_h2" href="#" title="Заголовок 2"></a></li>\
+                    <li><a class="pencil_toolbar_h3" href="#" title="Заголовок 3"></a></li>\
+                    <li><a class="pencil_toolbar_image" href="#" title="Изображение"></a></li>\
+                    <li><a class="pencil_toolbar_link" href="#" title="Ссылка"></a></li>\
+                    <li><a class="pencil_toolbar_video" href="#" title="Видео"></a></li>\
+                    <li><a class="pencil_toolbar_undo" href="#" title="Отмена"></a></li>\
+                    <li><a class="pencil_toolbar_redo" href="#" title="Повтор"></a></li>\
+                    <li><a class="pencil_toolbar_removeformat" href="#" title="Очистить форматирование"></a></li>\
                 </ul>\
                 <div style="clear: left;"></div>',
 
             'switch': '<div class="pencil_switch">\
-                    <a class="pencil_switch_html" href="#">Switch to HTMLMode</a>\
-                    <a class="pencil_switch_visual" href="#">Switch to Visual Mode</a>\
+                    <a class="pencil_switch_html" href="#">Переключитьвы в режим HTML</a>\
+                    <a class="pencil_switch_visual" href="#">Переключиться в визуальный режим</a>\
                 </div>',
 
             'modal': '<div class="pencil_modal"><div class="pencil_modal_close"></div></div>',
