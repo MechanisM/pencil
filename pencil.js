@@ -371,8 +371,8 @@ Requirements:
                 <div style="clear: left;"></div>',
 
             'switch': '<div class="pencil_switch">\
-                    <a class="pencil_switch_html" href="#">Переключитьвы в режим HTML</a>\
-                    <a class="pencil_switch_visual" href="#">Переключиться в визуальный режим</a>\
+                    <a class="pencil_switch_html" href="#">Перейти в режим HTML</a>\
+                    <a class="pencil_switch_visual" href="#">Перейти в визуальный режим</a>\
                 </div>',
 
             'modal': '<div class="pencil_modal"><div class="pencil_modal_close"></div></div>',
