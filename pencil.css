@@ -1,5 +1,9 @@
-.pencil_div{font-size: 13px; font-family: tahoma; border: solid 1px #ccc; border-radius: 5px;}
+.pencil_div{font-size: 13px; font-family: tahoma; border: solid 1px #ccc; border-radius: 5px; background: #fff; padding: 0 10px;}
 .pencil_div img{margin: 5px;}
+.pencil_div h1, .pencil_div h2, .pencil_div h3{color: #444; background-color: #fff; background-image: none; padding: 0; margin: 10px 0;}
+.pencil_div h1{font-size: 28px;}
+.pencil_div h2{font-size: 24px;}
+.pencil_div h3{font-size: 18px;}
 
 .pencil_toolbar{float: left; margin: 0; padding: 0;}
 .pencil_toolbar li{float: left; list-style-type: none;}
